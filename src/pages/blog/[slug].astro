@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getBlogPosts, formatDate, assetUrl } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.fields.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, publishDate, excerpt, featuredImage, content } = post.fields;
+
+const contentHtml = documentToHtmlString(content);
+const file = (featuredImage as any)?.fields?.file;
+const imgUrl = assetUrl(typeof file?.url === 'string' ? file.url : undefined);
+---
+
+<Layout title={title} description={excerpt ?? title}>
+  <article class="container mx-auto max-w-3xl px-4 py-16">
+    <a href="/" class="text-sm font-medium text-primary-500 hover:text-primary-600">
+      &larr; Zurück zur Startseite
+    </a>
+
+    <header class="mt-6">
+      <p class="text-sm text-gray-500">{formatDate(publishDate)}</p>
+      <h1 class="mt-2 font-serif text-4xl font-bold text-gray-900 lg:text-5xl">
+        {title}
+      </h1>
+    </header>
+
+    {
+      imgUrl && (
+        <img
+          src={imgUrl}
+          alt={title}
+          class="mt-8 w-full rounded-lg shadow"
+          loading="lazy"
+        />
+      )
+    }
+
+    <div class="article mt-8 text-gray-800" set:html={contentHtml} />
+  </article>
+</Layout>
+
+<style>
+  .article :global(p) {
+    margin: 1.15rem 0;
+    line-height: 1.8;
+  }
+  .article :global(h2) {
+    margin: 2rem 0 0.75rem;
+    font-family: Merriweather, serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #111827;
+  }
+  .article :global(h3) {
+    margin: 1.5rem 0 0.5rem;
+    font-family: Merriweather, serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111827;
+  }
+  .article :global(ul),
+  .article :global(ol) {
+    margin: 1.15rem 0;
+    padding-left: 1.5rem;
+    line-height: 1.8;
+  }
+  .article :global(ul) {
+    list-style: disc;
+  }
+  .article :global(ol) {
+    list-style: decimal;
+  }
+  .article :global(li) {
+    margin: 0.35rem 0;
+  }
+  .article :global(a) {
+    color: #0066cc;
+    text-decoration: underline;
+  }
+  .article :global(blockquote) {
+    margin: 1.5rem 0;
+    border-left: 4px solid #0066cc;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #374151;
+  }
+</style>
