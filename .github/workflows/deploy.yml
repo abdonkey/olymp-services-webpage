@@ -26,6 +26,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build & upload the Astro site
         uses: withastro/action@v3
+        with:
+          # The astro-seo-theme requires Node >= 22.12 (see package.json engines)
+          node-version: 22
         # Contentful is read at build time, so the build needs these.
         # Add them under: repo Settings → Secrets and variables → Actions → Secrets
         env:

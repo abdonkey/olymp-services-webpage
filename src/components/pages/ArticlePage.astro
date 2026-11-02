@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import { formatDate, assetUrl, type BlogPostEntry } from '../../lib/contentful';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
+interface Props {
+  post: BlogPostEntry;
+}
+
+const { post } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { title, publishDate, updatedDate, excerpt, description, featuredImage, content } = post.fields;
+const summary = description ?? excerpt ?? title;
+const contentHtml = documentToHtmlString(content);
+
+const file = (featuredImage as any)?.fields?.file;
+const imgUrl = assetUrl(typeof file?.url === 'string' ? file.url : undefined);
+
+const authorName = (post.fields.author as any)?.fields?.name ?? 'Olymp Services';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://olymp.services';
+const pageUrl = new URL(getLocalizedPath(lang, `/blog/${post.fields.slug}`), siteUrl).toString();
+---
+
+<BaseLayout
+  title={title}
+  description={summary}
+  ogType="article"
+  image={imgUrl}
+  publishedTime={new Date(publishDate)}
+  modifiedTime={updatedDate ? new Date(updatedDate) : undefined}
+  author={authorName}
+>
+  <Fragment slot="head">
+    <JsonLd
+      type="BlogPosting"
+      data={{
+        headline: title,
+        description: summary,
+        url: pageUrl,
+        datePublished: new Date(publishDate).toISOString(),
+        dateModified: updatedDate ? new Date(updatedDate).toISOString() : undefined,
+        image: imgUrl,
+        author: { name: authorName },
+        publisher: { name: 'Olymp Services', logo: `${siteUrl}/favicon.svg` },
+      }}
+    />
+  </Fragment>
+
+  <Header slot="header" />
+
+  <article class="mx-auto max-w-3xl px-6 py-16">
+    <a
+      href={getLocalizedPath(lang, '/blog')}
+      class="text-sm font-medium text-[var(--color-primary-600)] hover:underline dark:text-[var(--color-primary-400)]"
+    >
+      &larr; {t('blog.backToList')}
+    </a>
+
+    <header class="mt-6">
+      <p class="text-sm text-[var(--text-tertiary)]">{formatDate(publishDate, lang)}</p>
+      <h1
+        class="mt-2 font-display text-4xl font-extrabold tracking-tight text-[var(--text-primary)] lg:text-5xl"
+      >
+        {title}
+      </h1>
+    </header>
+
+    {
+      imgUrl && (
+        <img src={imgUrl} alt={title} class="mt-8 w-full rounded-2xl" loading="lazy" />
+      )
+    }
+
+    <div class="prose prose-lg mt-8 max-w-none" set:html={contentHtml} />
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>

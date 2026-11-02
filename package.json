@@ -1,26 +1,46 @@
 {
   "name": "olymp-services-webpage",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Olymp Services website (Astro + Contentful, deployed to GitHub Pages). Based on astro-seo-theme by David Rueda (MIT).",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/react": "^3.6.2",
-    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/markdown-satteri": "^0.4.1",
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/react": "^6.0.5",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "@contentful/rich-text-html-renderer": "^17.2.3",
-    "@fontsource/inter": "^5.1.0",
-    "@fontsource/merriweather": "^5.1.0",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "astro": "^4.16.6",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.3.2",
     "contentful": "^11.12.10",
-    "react-icons": "^5.3.0",
-    "sharp": "^0.33.5",
-    "typescript": "^5.6.3"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "prettier": "^3.9.8",
+    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-tailwindcss": "^0.8.1"
   }
 }

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+---
+
+<BaseLayout title="404 – Seite nicht gefunden" description="Die Seite wurde nicht gefunden." noindex={true}>
+  <Header slot="header" />
+
+  <main class="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
+    <p class="font-display text-base font-semibold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]">
+      404
+    </p>
+    <h1 class="mt-4 font-display text-4xl font-extrabold tracking-tight text-[var(--text-primary)] sm:text-5xl">
+      Seite nicht gefunden
+    </h1>
+    <p class="mt-6 text-base text-[var(--text-secondary)]">
+      Die angeforderte Seite existiert nicht.
+      <span class="block">The page you requested does not exist.</span>
+    </p>
+    <div class="mt-10">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--color-primary-600)]/25 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-700)]"
+      >
+        &larr; Zur Startseite
+      </a>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</BaseLayout>

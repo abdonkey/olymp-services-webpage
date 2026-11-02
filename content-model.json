@@ -37,9 +37,9 @@
           "id": "avatar",
           "name": "Avatar",
           "type": "Link",
-          "linkType": "Asset",
           "required": false,
-          "localized": false
+          "localized": false,
+          "linkType": "Asset"
         },
         {
           "id": "bio",
@@ -47,46 +47,50 @@
           "type": "Text",
           "required": false,
           "localized": false
-        }
-      ]
-    },
-    {
-      "sys": {
-        "id": "category"
-      },
-      "name": "Category",
-      "description": "Taxonomy category for classifying articles",
-      "displayField": "title",
-      "fields": [
+        },
         {
-          "id": "title",
-          "name": "Title",
+          "id": "role",
+          "name": "Rolle / Position",
           "type": "Symbol",
-          "required": true,
+          "required": false,
           "localized": false
         },
         {
-          "id": "slug",
-          "name": "Slug",
-          "type": "Symbol",
-          "required": true,
+          "id": "credentials",
+          "name": "Qualifikationen",
+          "type": "Array",
+          "required": false,
           "localized": false,
-          "validations": [
-            {
-              "unique": true
-            },
-            {
-              "regexp": {
-                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
-              },
-              "message": "Must be a valid kebab-case slug."
-            }
-          ]
+          "items": {
+            "type": "Symbol",
+            "validations": []
+          }
         },
         {
-          "id": "description",
-          "name": "Description",
-          "type": "Text",
+          "id": "twitter",
+          "name": "Twitter/X URL",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "linkedin",
+          "name": "LinkedIn URL",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "github",
+          "name": "GitHub URL",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "website",
+          "name": "Website URL",
+          "type": "Symbol",
           "required": false,
           "localized": false
         }
@@ -136,9 +140,9 @@
           "id": "featuredImage",
           "name": "Featured Image",
           "type": "Link",
-          "linkType": "Asset",
           "required": false,
-          "localized": false
+          "localized": false,
+          "linkType": "Asset"
         },
         {
           "id": "excerpt",
@@ -158,9 +162,9 @@
           "id": "author",
           "name": "Author",
           "type": "Link",
-          "linkType": "Entry",
           "required": false,
           "localized": false,
+          "linkType": "Entry",
           "validations": [
             {
               "linkContentType": [
@@ -173,9 +177,9 @@
           "id": "category",
           "name": "Category",
           "type": "Link",
-          "linkType": "Entry",
           "required": false,
           "localized": false,
+          "linkType": "Entry",
           "validations": [
             {
               "linkContentType": [
@@ -195,6 +199,489 @@
               "nodes": {}
             }
           ]
+        },
+        {
+          "id": "description",
+          "name": "SEO-Beschreibung",
+          "type": "Symbol",
+          "required": false,
+          "localized": false,
+          "validations": [
+            {
+              "size": {
+                "max": 160
+              }
+            }
+          ]
+        },
+        {
+          "id": "updatedDate",
+          "name": "Aktualisiert am",
+          "type": "Date",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "tags",
+          "name": "Tags",
+          "type": "Array",
+          "required": false,
+          "localized": false,
+          "items": {
+            "type": "Symbol",
+            "validations": []
+          }
+        },
+        {
+          "id": "draft",
+          "name": "Entwurf",
+          "type": "Boolean",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "canonicalUrl",
+          "name": "Canonical URL",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "noindex",
+          "name": "Noindex",
+          "type": "Boolean",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "ogType",
+          "name": "Open-Graph-Typ",
+          "type": "Symbol",
+          "required": false,
+          "localized": false,
+          "validations": [
+            {
+              "in": [
+                "article",
+                "website"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "caseStudy"
+      },
+      "name": "Case Study",
+      "description": "B2B-Erfolgsgeschichte mit strukturierten Daten für Rich Results.",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Titel",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "slug",
+          "name": "Slug",
+          "type": "Symbol",
+          "required": true,
+          "localized": false,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "message": "Must be a valid kebab-case slug."
+            }
+          ]
+        },
+        {
+          "id": "description",
+          "name": "SEO-Beschreibung",
+          "type": "Symbol",
+          "required": false,
+          "localized": false,
+          "validations": [
+            {
+              "size": {
+                "max": 160
+              }
+            }
+          ]
+        },
+        {
+          "id": "pubDate",
+          "name": "Veröffentlicht am",
+          "type": "Date",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "updatedDate",
+          "name": "Aktualisiert am",
+          "type": "Date",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "heroImage",
+          "name": "Hero-Bild",
+          "type": "Link",
+          "required": false,
+          "localized": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "client",
+          "name": "Kunde",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "industry",
+          "name": "Branche",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "tags",
+          "name": "Tags",
+          "type": "Array",
+          "required": false,
+          "localized": false,
+          "items": {
+            "type": "Symbol",
+            "validations": []
+          }
+        },
+        {
+          "id": "draft",
+          "name": "Entwurf",
+          "type": "Boolean",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "results",
+          "name": "Ergebnisse",
+          "type": "Array",
+          "required": false,
+          "localized": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkContentType": [
+                  "metric"
+                ]
+              }
+            ],
+            "linkType": "Entry"
+          }
+        },
+        {
+          "id": "testimonial",
+          "name": "Testimonial",
+          "type": "Link",
+          "required": false,
+          "localized": false,
+          "linkType": "Entry",
+          "validations": [
+            {
+              "linkContentType": [
+                "testimonial"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "content",
+          "name": "Inhalt",
+          "type": "RichText",
+          "required": true,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "category"
+      },
+      "name": "Category",
+      "description": "Taxonomy category for classifying articles",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "slug",
+          "name": "Slug",
+          "type": "Symbol",
+          "required": true,
+          "localized": false,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "message": "Must be a valid kebab-case slug."
+            }
+          ]
+        },
+        {
+          "id": "description",
+          "name": "Description",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "contactPage"
+      },
+      "name": "Contact Page",
+      "description": "Inhalte der Kontaktseite (einmaliger Eintrag). De/En-Feldpaare, da der Space nur eine Locale hat. Web3Forms Access Key optional – ohne Key öffnet das Formular das E-Mail-Programm des Besuchers.",
+      "displayField": "titleDe",
+      "fields": [
+        {
+          "id": "titleDe",
+          "name": "Titel (Deutsch)",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "titleEn",
+          "name": "Titel (Englisch)",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "introDe",
+          "name": "Einleitung (Deutsch)",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "introEn",
+          "name": "Einleitung (Englisch)",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "email",
+          "name": "E-Mail",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "phone",
+          "name": "Telefon",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "headquarters",
+          "name": "Adresse / Standort (mehrzeilig)",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "web3formsAccessKey",
+          "name": "Web3Forms Access Key",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "impressum"
+      },
+      "name": "Impressum",
+      "description": "Rechtliche Pflichtangaben (§ 5 DDG). Einmaliger Eintrag – wird auf der Impressum-Seite und im Verantwortlichen-Abschnitt der Datenschutzseite verwendet.",
+      "displayField": "companyName",
+      "fields": [
+        {
+          "id": "companyName",
+          "name": "Firmenname / Rechtsform",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "street",
+          "name": "Straße und Hausnummer",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "postalCode",
+          "name": "PLZ",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "city",
+          "name": "Ort",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "country",
+          "name": "Land",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "managingDirector",
+          "name": "Geschäftsführer / Vertretungsberechtigte(r)",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "email",
+          "name": "E-Mail",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "phone",
+          "name": "Telefon",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "registerCourt",
+          "name": "Registergericht",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "registerNumber",
+          "name": "Registernummer (HRB/HRA)",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "vatId",
+          "name": "USt-IdNr.",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "responsiblePerson",
+          "name": "Redaktionell verantwortlich (§ 18 Abs. 2 MStV)",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "metric"
+      },
+      "name": "Metric",
+      "description": "Ein einzelnes Ergebnis/Kennzahl für eine Case Study.",
+      "displayField": "label",
+      "fields": [
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "value",
+          "name": "Wert",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "description",
+          "name": "Beschreibung",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "testimonial"
+      },
+      "name": "Testimonial",
+      "description": "Kundenstimme für Case Studies oder Marketingseiten.",
+      "displayField": "authorName",
+      "fields": [
+        {
+          "id": "quote",
+          "name": "Zitat",
+          "type": "Text",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "authorName",
+          "name": "Name",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "authorRole",
+          "name": "Rolle / Unternehmen",
+          "type": "Symbol",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "avatar",
+          "name": "Avatar",
+          "type": "Link",
+          "required": false,
+          "localized": false,
+          "linkType": "Asset"
         }
       ]
     }
