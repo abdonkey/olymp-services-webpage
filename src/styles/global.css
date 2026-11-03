@@ -4,6 +4,15 @@
 @plugin '@tailwindcss/typography';
 
 /*
+ * Dark mode is class-based (.dark on <html>, set by the toggle / localStorage),
+ * NOT driven by the OS preference. Without this directive, Tailwind's `dark:`
+ * utilities follow prefers-color-scheme while the CSS variables follow the
+ * class — on an OS-dark device showing the light theme, the logos were
+ * inverted to white-on-white.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
  * Astro SEO Theme — Base Styles
  * Design system inspired by Linear, Vercel, Stripe.
  */
