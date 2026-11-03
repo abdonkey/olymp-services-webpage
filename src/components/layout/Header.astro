@@ -1,6 +1,10 @@
 ---
 /**
- * Header.astro — minimal site header (Olymp Services, under construction).
+ * Header.astro — site header with dropdown navigation (astro-seo-theme style).
+ *
+ * - Desktop (md+): dropdown menus (hover/focus) with icon + description items,
+ *   language picker, dark mode toggle, CTA button
+ * - Mobile: hamburger with accordion groups and touch-friendly targets
  */
 import DarkModeToggle from '../ui/DarkModeToggle.tsx';
 import LanguagePicker from '../ui/LanguagePicker.astro';
@@ -10,14 +14,53 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const currentPath = Astro.url.pathname;
 
-const navItems = [
-  { label: t('nav.home'), href: getLocalizedPath(lang, '/') },
-  { label: t('nav.blog'), href: getLocalizedPath(lang, '/blog') },
+// Dropdown item icons
+const Icons = {
+  services: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+  caseStudies: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  blog: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+};
+
+type NavItem = {
+  label: string;
+  href?: string;
+  dropdown?: { title: string; description: string; href: string; icon: string }[];
+};
+
+const navItems: NavItem[] = [
+  {
+    label: t('nav.services'),
+    dropdown: [
+      {
+        title: t('nav.servicesItem'),
+        description: t('nav.servicesItemDesc'),
+        href: getLocalizedPath(lang, '/#services'),
+        icon: Icons.services,
+      },
+      {
+        title: t('nav.caseStudies'),
+        description: t('nav.caseStudiesDesc'),
+        href: getLocalizedPath(lang, '/case-studies'),
+        icon: Icons.caseStudies,
+      },
+    ],
+  },
+  {
+    label: t('nav.resources'),
+    dropdown: [
+      {
+        title: t('nav.blog'),
+        description: t('nav.blogDesc'),
+        href: getLocalizedPath(lang, '/blog'),
+        icon: Icons.blog,
+      },
+    ],
+  },
   { label: t('nav.contact'), href: getLocalizedPath(lang, '/contact') },
 ];
 
 const isActive = (href: string) =>
-  href !== '/' && !href.startsWith('mailto:') && currentPath.replace(/\/$/, '') === href.replace(/\/$/, '');
+  currentPath === href || (href !== '/' && currentPath.startsWith(href + '/'));
 ---
 
 <header
@@ -30,7 +73,7 @@ const isActive = (href: string) =>
       class="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight"
     >
       <span
-        class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-primary-600)] text-white"
+        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-primary-600)] text-white"
         aria-hidden="true"
       >
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -41,26 +84,203 @@ const isActive = (href: string) =>
       <span>Olymp.Services</span>
     </a>
 
-    <!-- Navigation -->
-    <nav class="flex items-center gap-1 sm:gap-2" aria-label="Main navigation">
+    <!-- Desktop navigation -->
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Main navigation">
       {
-        navItems.map((item) => (
-          <a
-            href={item.href}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            class:list={[
-              'rounded-lg px-2.5 py-2 text-sm font-medium transition-colors hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] sm:px-3',
-              isActive(item.href) ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]',
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
+        navItems.map((item) =>
+          item.dropdown ? (
+            <div class="group relative inline-block">
+              <button
+                class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] focus:outline-none"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {item.label}
+                <svg
+                  class="h-4 w-4 opacity-70 transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <div class="invisible absolute left-0 top-full z-50 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div class="w-80 rounded-xl border border-[var(--border)] bg-[var(--bg)] p-3 shadow-xl ring-1 ring-black/5">
+                  <div class="flex flex-col gap-1">
+                    {item.dropdown.map((subItem) => (
+                      <a
+                        href={subItem.href}
+                        class="flex items-start gap-3 rounded-lg p-3 transition-colors hover:bg-[var(--bg-secondary)]"
+                      >
+                        <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[var(--color-primary-50)] text-[var(--color-primary-500)] dark:bg-[var(--color-primary-500)]/10 dark:text-[var(--color-primary-400)]">
+                          <Fragment set:html={subItem.icon} />
+                        </div>
+                        <div>
+                          <div class="text-sm font-semibold text-[var(--text-primary)]">
+                            {subItem.title}
+                          </div>
+                          <div class="mt-1 text-xs text-[var(--text-secondary)]">
+                            {subItem.description}
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              aria-current={isActive(item.href!) ? 'page' : undefined}
+              class:list={[
+                'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                isActive(item.href!)
+                  ? 'bg-[var(--bg-secondary)] text-[var(--text-primary)]'
+                  : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]',
+              ]}
+            >
+              {item.label}
+            </a>
+          ),
+        )
       }
-      <div class="ml-1 flex items-center gap-2 sm:ml-2">
-        <LanguagePicker />
-        <DarkModeToggle client:load />
-      </div>
     </nav>
+
+    <!-- Right side: language, dark mode, CTA, mobile hamburger -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <div class="hidden md:block">
+        <LanguagePicker />
+      </div>
+      <DarkModeToggle client:load />
+      <a
+        href={getLocalizedPath(lang, '/contact')}
+        class="hidden items-center gap-2 rounded-lg bg-[var(--color-primary-600)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-primary-700)] sm:inline-flex"
+      >
+        {t('nav.cta')}
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-button"
+        type="button"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label={t('nav.menu')}
+        class="flex h-10 w-10 items-center justify-center rounded-lg text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] md:hidden"
+      >
+        <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <svg id="menu-icon-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="hidden max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-[var(--border)] bg-[var(--bg)] md:hidden"
+  >
+    <nav class="flex flex-col gap-1 px-4 py-4" aria-label="Mobile navigation">
+      {
+        navItems.map((item, idx) =>
+          item.dropdown ? (
+            <div class="border-b border-[var(--border)] pb-2 last:border-0 last:pb-0">
+              <button
+                class="mobile-dropdown-btn flex w-full items-center justify-between rounded-lg px-3 py-3 text-base font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-secondary)] focus:outline-none"
+                aria-expanded="false"
+                aria-controls={`mobile-dropdown-panel-${idx}`}
+              >
+                {item.label}
+                <svg
+                  class="h-4 w-4 opacity-70 transition-transform duration-200"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <div id={`mobile-dropdown-panel-${idx}`} class="mobile-dropdown-panel mt-1 hidden flex-col space-y-1 pl-4">
+                {item.dropdown.map((subItem) => (
+                  <a
+                    href={subItem.href}
+                    class="block rounded-lg px-3 py-3 text-base text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]"
+                  >
+                    {subItem.title}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              aria-current={isActive(item.href!) ? 'page' : undefined}
+              class:list={[
+                'block rounded-lg px-3 py-3 text-base font-medium transition-colors',
+                isActive(item.href!)
+                  ? 'bg-[var(--bg-secondary)] text-[var(--text-primary)]'
+                  : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]',
+              ]}
+            >
+              {item.label}
+            </a>
+          ),
+        )
+      }
+    </nav>
+    <div class="border-t border-[var(--border)] px-7 py-4">
+      <LanguagePicker id="language-select-mobile" />
+    </div>
   </div>
 </header>
+
+<script>
+  // --- Mobile menu toggle ---
+  const button = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  function setMenu(open: boolean) {
+    menu?.classList.toggle('hidden', !open);
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+    button?.setAttribute('aria-expanded', String(open));
+  }
+
+  button?.addEventListener('click', () => {
+    const isOpen = button.getAttribute('aria-expanded') === 'true';
+    setMenu(!isOpen);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      button.focus();
+    }
+  });
+
+  // --- Mobile dropdown accordions ---
+  document.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      panel?.classList.toggle('hidden', isExpanded);
+      panel?.classList.toggle('flex', !isExpanded);
+      icon?.classList.toggle('rotate-180', !isExpanded);
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+    });
+  });
+</script>

@@ -1,0 +1,71 @@
+---
+/**
+ * LogoCloud.astro — "Trusted by" social-proof band (from astro-seo-theme),
+ * driven by Contentful `application` entries (name, logo, url).
+ */
+import { assetUrl, type ApplicationEntry } from '../../lib/contentful';
+
+interface Props {
+  title: string;
+  applications: ApplicationEntry[];
+}
+
+const { title, applications } = Astro.props;
+
+const logos = applications
+  .map((app) => {
+    const file = (app.fields.logo as any)?.fields?.file;
+    return {
+      name: app.fields.name,
+      url: app.fields.url,
+      src: assetUrl(typeof file?.url === 'string' ? file.url : undefined),
+    };
+  })
+  .filter((l) => l.src);
+
+const imgClass =
+  'h-8 w-auto max-w-[120px] object-contain sm:h-10 transition-all drop-shadow-sm hover:drop-shadow-md dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.15)] dark:hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]';
+---
+
+{
+  logos.length > 0 && (
+    <section class="border-t border-[var(--border)] bg-[var(--bg-secondary)]/50 py-12 md:py-16">
+      <div class="mx-auto max-w-7xl px-6 text-center">
+        <p class="text-sm font-semibold tracking-wide text-[var(--text-tertiary)] uppercase">
+          {title}
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 opacity-80 transition-all hover:opacity-100 sm:gap-x-16">
+          {logos.map((logo) =>
+            logo.url ? (
+              <a
+                href={logo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={logo.name}
+                class="inline-flex items-center"
+              >
+                <img
+                  src={logo.src}
+                  alt={`${logo.name} Logo`}
+                  loading="lazy"
+                  width="120"
+                  height="40"
+                  class={imgClass}
+                />
+              </a>
+            ) : (
+              <img
+                src={logo.src}
+                alt={`${logo.name} Logo`}
+                loading="lazy"
+                width="120"
+                height="40"
+                class={imgClass}
+              />
+            ),
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}

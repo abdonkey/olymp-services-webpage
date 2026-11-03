@@ -23,6 +23,24 @@ export const ui = {
     'nav.home': 'Start',
     'nav.blog': 'Blog',
     'nav.contact': 'Kontakt',
+    'nav.menu': 'Menü',
+    'nav.services': 'Leistungen',
+    'nav.servicesItem': 'Unsere Leistungen',
+    'nav.servicesItemDesc': 'Hosting, Serverinfrastruktur & KI.',
+    'nav.caseStudies': 'Case Studies',
+    'nav.caseStudiesDesc': 'Erfolgsgeschichten aus unseren Projekten.',
+    'nav.resources': 'Ressourcen',
+    'nav.blogDesc': 'Neuigkeiten und Einblicke.',
+    'nav.cta': 'Kontakt aufnehmen',
+
+    // Case studies
+    'caseStudies.title': 'Case Studies',
+    'caseStudies.description':
+      'Einblicke in unsere Projekte – von sicherer Infrastruktur bis zu geschützten KI-Umgebungen.',
+    'caseStudies.clientLabel': 'Kunde',
+    'caseStudies.industryLabel': 'Branche',
+    'caseStudies.backToList': 'Alle Case Studies',
+    'caseStudies.empty': 'Noch keine Case Studies vorhanden.',
 
     // Hero / under construction
     'hero.badge': 'Im Aufbau',
@@ -39,6 +57,13 @@ export const ui = {
     'blog.backHome': 'Zurück zur Startseite',
     'blog.backToList': 'Alle Beiträge',
     'blog.empty': 'Noch keine Beiträge vorhanden.',
+
+    // Trusted by
+    'trustedBy.title': 'Im Einsatz bei innovativen Anwendungen',
+
+    // Services
+    'services.title': 'Unsere Leistungen',
+    'services.subtitle': 'Was wir für Sie tun können – von der Website bis zur KI-Infrastruktur.',
 
     // Contact page
     'contact.formTitle': 'Nachricht senden',
@@ -71,6 +96,24 @@ export const ui = {
     'nav.home': 'Home',
     'nav.blog': 'Blog',
     'nav.contact': 'Contact',
+    'nav.menu': 'Menu',
+    'nav.services': 'Services',
+    'nav.servicesItem': 'Our Services',
+    'nav.servicesItemDesc': 'Hosting, server infrastructure & AI.',
+    'nav.caseStudies': 'Case Studies',
+    'nav.caseStudiesDesc': 'Success stories from our projects.',
+    'nav.resources': 'Resources',
+    'nav.blogDesc': 'News and insights.',
+    'nav.cta': 'Get in touch',
+
+    // Case studies
+    'caseStudies.title': 'Case Studies',
+    'caseStudies.description':
+      'Insights into our projects — from secure infrastructure to protected AI environments.',
+    'caseStudies.clientLabel': 'Client',
+    'caseStudies.industryLabel': 'Industry',
+    'caseStudies.backToList': 'All case studies',
+    'caseStudies.empty': 'No case studies yet.',
 
     // Hero / under construction
     'hero.badge': 'Under construction',
@@ -87,6 +130,13 @@ export const ui = {
     'blog.backHome': 'Back to home',
     'blog.backToList': 'All posts',
     'blog.empty': 'No posts yet.',
+
+    // Trusted by
+    'trustedBy.title': 'Trusted by innovative applications',
+
+    // Services
+    'services.title': 'Our Services',
+    'services.subtitle': 'What we can do for you — from websites to AI infrastructure.',
 
     // Contact page
     'contact.formTitle': 'Send us a message',

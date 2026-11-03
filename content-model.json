@@ -648,6 +648,67 @@
     },
     {
       "sys": {
+        "id": "service"
+      },
+      "name": "Service",
+      "description": "Eine Leistung für die Services-Sektion auf der Startseite.",
+      "displayField": "titleDe",
+      "fields": [
+        {
+          "id": "titleDe",
+          "name": "Titel (Deutsch)",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "titleEn",
+          "name": "Titel (Englisch)",
+          "type": "Symbol",
+          "required": true,
+          "localized": false
+        },
+        {
+          "id": "descriptionDe",
+          "name": "Beschreibung (Deutsch)",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "descriptionEn",
+          "name": "Beschreibung (Englisch)",
+          "type": "Text",
+          "required": false,
+          "localized": false
+        },
+        {
+          "id": "icon",
+          "name": "Icon",
+          "type": "Symbol",
+          "required": false,
+          "localized": false,
+          "validations": [
+            {
+              "in": [
+                "hosting",
+                "infrastructure",
+                "ai"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "order",
+          "name": "Reihenfolge",
+          "type": "Integer",
+          "required": false,
+          "localized": false
+        }
+      ]
+    },
+    {
+      "sys": {
         "id": "testimonial"
       },
       "name": "Testimonial",

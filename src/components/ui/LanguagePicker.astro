@@ -1,23 +1,28 @@
 ---
 /**
  * LanguagePicker.astro — Accessible language switcher dropdown.
- * Renders a native <select> styled to match the design system.
- * Zero JavaScript overhead (just a native form element).
+ * Native <select>, styled to match the design system.
+ *
+ * Multi-instance safe: pass a unique `id` when rendering more than once on a
+ * page (e.g. desktop nav + mobile menu). The script binds all instances by class.
  */
-import { languages, type Lang } from '../../i18n/ui';
+import { type Lang } from '../../i18n/ui';
 import { getLangFromUrl, getAlternateLocales } from '../../i18n/utils';
 
+interface Props {
+  id?: string;
+}
+
+const { id = 'language-select' } = Astro.props;
 const currentLang = getLangFromUrl(Astro.url);
 const alternates = getAlternateLocales(Astro.url.pathname);
 ---
 
 <div class="relative">
-  <label for="language-select" class="sr-only">
-    Select language
-  </label>
+  <label for={id} class="sr-only">Select language</label>
   <select
-    id="language-select"
-    class="cursor-pointer appearance-none rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] px-2 py-1 pr-6 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)] focus:border-[var(--color-primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary-500)] md:px-3 md:py-1.5 md:pr-8"
+    id={id}
+    class="language-select cursor-pointer appearance-none rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] px-2 py-1 pr-6 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)] focus:border-[var(--color-primary-500)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary-500)] md:px-3 md:py-1.5 md:pr-8"
   >
     {alternates.map(({ lang, href }) => (
       <option value={href} selected={lang === currentLang}>
@@ -38,8 +43,10 @@ const alternates = getAlternateLocales(Astro.url.pathname);
 </div>
 
 <script>
-  const select = document.getElementById('language-select') as HTMLSelectElement | null;
-  select?.addEventListener('change', () => {
-    window.location.pathname = select.value;
+  // Astro dedupes component scripts, so bind every instance by class.
+  document.querySelectorAll<HTMLSelectElement>('.language-select').forEach((select) => {
+    select.addEventListener('change', () => {
+      window.location.pathname = select.value;
+    });
   });
 </script>

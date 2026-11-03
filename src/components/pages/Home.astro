@@ -4,7 +4,9 @@ import Header from '../layout/Header.astro';
 import Footer from '../layout/Footer.astro';
 import JsonLd from '../seo/JsonLd.astro';
 import PostCard from '../sections/PostCard.astro';
-import { getBlogPosts } from '../../lib/contentful';
+import BentoGrid from '../sections/BentoGrid.astro';
+import LogoCloud from '../sections/LogoCloud.astro';
+import { getBlogPosts, getServices, getApplications } from '../../lib/contentful';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -12,6 +14,31 @@ const t = useTranslations(lang);
 
 const posts = await getBlogPosts();
 const latest = posts[0];
+
+// Services + trusted-by applications (managed in Contentful)
+const services = await getServices();
+const applications = await getApplications();
+
+const serviceIcons: Record<string, string> = {
+  hosting:
+    '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>',
+  infrastructure:
+    '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z" /></svg>',
+  ai:
+    '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" /></svg>',
+};
+
+// Asymmetric bento layout like the theme demo: wide/narrow alternating
+// ([2,1] / [1,2]). With exactly 3 items the last card spans the full row.
+const bentoSpan = (i: number, total: number): 1 | 2 | 3 =>
+  total === 3 && i === 2 ? 3 : ([2, 1, 1, 2] as const)[i % 4];
+
+const serviceItems = services.map((s, i) => ({
+  title: (lang === 'de' ? s.fields.titleDe : s.fields.titleEn) ?? s.fields.titleDe,
+  description: (lang === 'de' ? s.fields.descriptionDe : s.fields.descriptionEn) ?? '',
+  icon: s.fields.icon ? serviceIcons[s.fields.icon] : undefined,
+  colSpan: bentoSpan(i, services.length),
+}));
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://olymp.services';
 const pageTitle = lang === 'de' ? 'Website im Aufbau' : 'Under construction';
@@ -80,6 +107,21 @@ const primaryHref = latest
       </div>
     </div>
   </section>
+
+  <!-- Trusted by (from Contentful) -->
+  <LogoCloud title={t('trustedBy.title')} applications={applications} />
+
+  <!-- Services (from Contentful) -->
+  {
+    serviceItems.length > 0 && (
+      <BentoGrid
+        id="services"
+        title={t('services.title')}
+        subtitle={t('services.subtitle')}
+        items={serviceItems}
+      />
+    )
+  }
 
   <!-- News -->
   {

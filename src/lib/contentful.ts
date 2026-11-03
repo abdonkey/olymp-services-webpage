@@ -98,9 +98,72 @@ export interface ContactPageSkeleton extends EntrySkeletonType {
   };
 }
 
+export interface ServiceSkeleton extends EntrySkeletonType {
+  contentTypeId: 'service';
+  fields: {
+    titleDe: EntryFieldTypes.Symbol;
+    titleEn: EntryFieldTypes.Symbol;
+    descriptionDe?: EntryFieldTypes.Text;
+    descriptionEn?: EntryFieldTypes.Text;
+    icon?: EntryFieldTypes.Symbol;
+    order?: EntryFieldTypes.Integer;
+  };
+}
+
+export interface MetricSkeleton extends EntrySkeletonType {
+  contentTypeId: 'metric';
+  fields: {
+    label: EntryFieldTypes.Symbol;
+    value: EntryFieldTypes.Symbol;
+    description?: EntryFieldTypes.Text;
+  };
+}
+
+export interface TestimonialSkeleton extends EntrySkeletonType {
+  contentTypeId: 'testimonial';
+  fields: {
+    quote: EntryFieldTypes.Text;
+    authorName: EntryFieldTypes.Symbol;
+    authorRole?: EntryFieldTypes.Symbol;
+    avatar?: EntryFieldTypes.AssetLink;
+  };
+}
+
+export interface CaseStudySkeleton extends EntrySkeletonType {
+  contentTypeId: 'caseStudy';
+  fields: {
+    title: EntryFieldTypes.Symbol;
+    slug: EntryFieldTypes.Symbol;
+    description?: EntryFieldTypes.Symbol;
+    pubDate: EntryFieldTypes.Date;
+    updatedDate?: EntryFieldTypes.Date;
+    heroImage?: EntryFieldTypes.AssetLink;
+    client?: EntryFieldTypes.Symbol;
+    industry?: EntryFieldTypes.Symbol;
+    tags?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
+    draft?: EntryFieldTypes.Boolean;
+    results?: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<MetricSkeleton>>;
+    testimonial?: EntryFieldTypes.EntryLink<TestimonialSkeleton>;
+    content: EntryFieldTypes.RichText;
+  };
+}
+
+export interface ApplicationSkeleton extends EntrySkeletonType {
+  contentTypeId: 'application';
+  fields: {
+    name: EntryFieldTypes.Symbol;
+    logo?: EntryFieldTypes.AssetLink;
+    url?: EntryFieldTypes.Symbol;
+    order?: EntryFieldTypes.Integer;
+  };
+}
+
 export type BlogPostEntry = contentful.Entry<BlogPostSkeleton, undefined, string>;
 export type ImpressumEntry = contentful.Entry<ImpressumSkeleton, undefined, string>;
 export type ContactPageEntry = contentful.Entry<ContactPageSkeleton, undefined, string>;
+export type ServiceEntry = contentful.Entry<ServiceSkeleton, undefined, string>;
+export type ApplicationEntry = contentful.Entry<ApplicationSkeleton, undefined, string>;
+export type CaseStudyEntry = contentful.Entry<CaseStudySkeleton, undefined, string>;
 
 // ---------------------------------------------------------------------------
 // Queries
@@ -137,6 +200,31 @@ export async function getContactPage(): Promise<ContactPageEntry | undefined> {
     limit: 1,
   });
   return entries.items[0];
+}
+
+export async function getServices(): Promise<ServiceEntry[]> {
+  const entries = await contentfulClient.getEntries<ServiceSkeleton>({
+    content_type: 'service',
+    order: ['fields.order'],
+  });
+  return entries.items;
+}
+
+export async function getCaseStudies(): Promise<CaseStudyEntry[]> {
+  const entries = await contentfulClient.getEntries<CaseStudySkeleton>({
+    content_type: 'caseStudy',
+    order: ['-fields.pubDate'],
+    include: 2, // resolve linked metric/testimonial entries
+  });
+  return entries.items.filter((cs) => cs.fields.draft !== true);
+}
+
+export async function getApplications(): Promise<ApplicationEntry[]> {
+  const entries = await contentfulClient.getEntries<ApplicationSkeleton>({
+    content_type: 'application',
+    order: ['fields.order'],
+  });
+  return entries.items;
 }
 
 // ---------------------------------------------------------------------------

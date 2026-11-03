@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import { getCaseStudies, assetUrl } from '../../lib/contentful';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const caseStudies = await getCaseStudies();
+
+const heroImageUrl = (cs: (typeof caseStudies)[number]) => {
+  const file = (cs.fields.heroImage as any)?.fields?.file;
+  return assetUrl(typeof file?.url === 'string' ? file.url : undefined);
+};
+const resultsOf = (cs: (typeof caseStudies)[number]) =>
+  ((cs.fields.results as any[]) ?? []).filter((r) => r?.fields);
+---
+
+<BaseLayout title={t('caseStudies.title')} description={t('caseStudies.description')}>
+  <Header slot="header" />
+
+  <main class="mx-auto max-w-7xl px-6 py-20 md:py-28">
+    <header class="mx-auto max-w-3xl text-center">
+      <h1 class="font-display text-4xl font-extrabold tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl">
+        {t('caseStudies.title')}
+      </h1>
+      <p class="mt-6 text-lg text-[var(--text-secondary)] md:text-xl">
+        {t('caseStudies.description')}
+      </p>
+    </header>
+
+    {
+      caseStudies.length > 0 ? (
+        <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {caseStudies.map((study) => (
+            <a
+              href={getLocalizedPath(lang, `/case-studies/${study.fields.slug}`)}
+              class="group flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--bg)] transition-all hover:border-[var(--color-primary-500)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)]"
+            >
+              {heroImageUrl(study) ? (
+                <div class="aspect-[16/9] w-full overflow-hidden border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+                  <img
+                    src={heroImageUrl(study)}
+                    alt={study.fields.client ?? study.fields.title}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    width="600"
+                    height="338"
+                  />
+                </div>
+              ) : (
+                <div class="flex aspect-[16/9] w-full items-center justify-center border-b border-[var(--border)] bg-gradient-to-br from-[var(--color-primary-100)] to-[var(--color-primary-50)] dark:from-[var(--color-primary-900)] dark:to-[var(--color-primary-950)]">
+                  <span class="px-6 text-center font-display text-2xl font-bold text-[var(--color-primary-500)] dark:text-[var(--color-primary-300)]">
+                    {study.fields.client ?? study.fields.title}
+                  </span>
+                </div>
+              )}
+
+              <div class="flex flex-1 flex-col p-8">
+                {study.fields.industry && (
+                  <div class="mb-4 flex flex-wrap items-center gap-3">
+                    <span class="rounded-full bg-[var(--bg-secondary)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                      {study.fields.industry}
+                    </span>
+                  </div>
+                )}
+
+                <h2 class="mb-3 text-xl font-bold text-[var(--text-primary)] transition-colors group-hover:text-[var(--color-primary-500)]">
+                  {study.fields.title}
+                </h2>
+
+                {study.fields.description && (
+                  <p class="line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    {study.fields.description}
+                  </p>
+                )}
+
+                {resultsOf(study).length > 0 && (
+                  <div class="mt-8 border-t border-[var(--border)] pt-6">
+                    <div class="grid grid-cols-2 gap-4">
+                      {resultsOf(study)
+                        .slice(0, 2)
+                        .map((result) => (
+                          <div>
+                            <p class="font-display text-2xl font-bold text-[var(--color-primary-500)]">
+                              {result.fields.value}
+                            </p>
+                            <p class="text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]">
+                              {result.fields.label}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="mt-16 text-center text-[var(--text-secondary)]">{t('caseStudies.empty')}</p>
+      )
+    }
+  </main>
+
+  <Footer slot="footer" />
+</BaseLayout>

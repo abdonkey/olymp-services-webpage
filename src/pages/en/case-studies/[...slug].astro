@@ -1,0 +1,16 @@
+---
+import CaseStudyPage from '../../../components/pages/CaseStudyPage.astro';
+import { getCaseStudies } from '../../../lib/contentful';
+
+export async function getStaticPaths() {
+  const caseStudies = await getCaseStudies();
+  return caseStudies.map((caseStudy) => ({
+    params: { slug: caseStudy.fields.slug },
+    props: { caseStudy },
+  }));
+}
+
+const { caseStudy } = Astro.props;
+---
+
+<CaseStudyPage caseStudy={caseStudy} />

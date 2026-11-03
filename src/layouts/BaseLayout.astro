@@ -45,10 +45,12 @@ const alternateLocales = getAlternateLocales(Astro.url.pathname);
 ---
 
 <!doctype html>
-<html lang={lang} class="dark scroll-smooth overflow-x-hidden">
+<html lang={lang} class="scroll-smooth overflow-x-hidden">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Mobile browser chrome color (matches light default background) -->
+    <meta name="theme-color" content="#fafafc" />
 
     <!-- Primary Meta Tags -->
     <title>{fullTitle}</title>
@@ -99,12 +101,13 @@ const alternateLocales = getAlternateLocales(Astro.url.pathname);
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Dark Mode: dark is the default (class baked into <html> above); this
-         script only switches to light when the visitor explicitly chose it. -->
+    <!-- Theme: light is the default; this script only switches to dark when
+         the visitor explicitly chose it via the toggle. Runs inline to
+         prevent a flash of the wrong theme. -->
     <script is:inline>
       (function () {
-        if (localStorage.getItem('theme') === 'light') {
-          document.documentElement.classList.remove('dark');
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
         }
       })();
     </script>
