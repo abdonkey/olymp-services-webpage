@@ -148,6 +148,24 @@ export interface CaseStudySkeleton extends EntrySkeletonType {
   };
 }
 
+export interface HeroSkeleton extends EntrySkeletonType {
+  contentTypeId: 'hero';
+  fields: {
+    badgeDe?: EntryFieldTypes.Symbol;
+    badgeEn?: EntryFieldTypes.Symbol;
+    titleStartDe: EntryFieldTypes.Symbol;
+    titleStartEn: EntryFieldTypes.Symbol;
+    titleHighlightDe: EntryFieldTypes.Symbol;
+    titleHighlightEn: EntryFieldTypes.Symbol;
+    descriptionDe?: EntryFieldTypes.Text;
+    descriptionEn?: EntryFieldTypes.Text;
+    primaryCtaDe?: EntryFieldTypes.Symbol;
+    primaryCtaEn?: EntryFieldTypes.Symbol;
+    secondaryCtaDe?: EntryFieldTypes.Symbol;
+    secondaryCtaEn?: EntryFieldTypes.Symbol;
+  };
+}
+
 export interface ApplicationSkeleton extends EntrySkeletonType {
   contentTypeId: 'application';
   fields: {
@@ -164,6 +182,7 @@ export type ContactPageEntry = contentful.Entry<ContactPageSkeleton, undefined, 
 export type ServiceEntry = contentful.Entry<ServiceSkeleton, undefined, string>;
 export type ApplicationEntry = contentful.Entry<ApplicationSkeleton, undefined, string>;
 export type CaseStudyEntry = contentful.Entry<CaseStudySkeleton, undefined, string>;
+export type HeroEntry = contentful.Entry<HeroSkeleton, undefined, string>;
 
 // ---------------------------------------------------------------------------
 // Queries
@@ -208,6 +227,14 @@ export async function getServices(): Promise<ServiceEntry[]> {
     order: ['fields.order'],
   });
   return entries.items;
+}
+
+export async function getHero(): Promise<HeroEntry | undefined> {
+  const entries = await contentfulClient.getEntries<HeroSkeleton>({
+    content_type: 'hero',
+    limit: 1,
+  });
+  return entries.items[0];
 }
 
 export async function getCaseStudies(): Promise<CaseStudyEntry[]> {

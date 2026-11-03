@@ -1,17 +1,16 @@
 # Olymp Services
 
-> Olymp Services bietet Managed Infrastruktur für Web und KI: Hosting von Webseiten,
-> Verwaltung von Serverinfrastrukturen und den Aufbau geschützter KI-Serverlandschaften
-> für agentische KI.
-> Olymp Services provides managed infrastructure for web and AI: website hosting,
-> server infrastructure management and protected AI server environments for agentic AI.
+> Olymp Services bietet Managed Infrastruktur für Web und KI: Hosting von Webanwendungen,
+> Verwaltung von Serverinfrastrukturen und sichere Umgebungen für agentische Workflows.
+> Olymp Services provides managed infrastructure for web and AI: web application hosting,
+> server infrastructure management and secure environments for agentic workflows.
 
 ## Kontakt / Contact
 - E-Mail: info@olymp.services
 - Kontaktseite / Contact page: https://olymp.services/contact
 
 ## Leistungen / Services
-- Hosting von Webseiten / Website hosting
+- Hosting von Webanwendungen / Web application hosting
 - Verwaltung von Serverinfrastrukturen / Server infrastructure management
 - Aufbau geschützter KI-Serverlandschaften / Secure AI server environments
 

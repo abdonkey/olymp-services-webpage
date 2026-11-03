@@ -58,7 +58,7 @@ export const ui = {
     'hero.titleStart': 'Managed Infrastruktur für',
     'hero.titleHighlight': 'Web und KI',
     'hero.description':
-      'Wir hosten Ihre Webseiten, betreiben Ihre Serverinfrastruktur und bauen geschützte Umgebungen für agentische KI – zuverlässig und aus einer Hand.',
+      'Wir managen die Infrastruktur Ihrer Web-Anwendungen, betreiben Ihre eigene Serverlandschaft und schaffen sichere Umgebungen für agentische Workflows.',
     'hero.primaryCta': 'Kontakt aufnehmen',
     'hero.secondaryCta': 'Unsere Leistungen',
 
@@ -144,7 +144,7 @@ export const ui = {
     'hero.titleStart': 'Managed infrastructure for',
     'hero.titleHighlight': 'web and AI',
     'hero.description':
-      'We host your websites, operate your server infrastructure and build protected environments for agentic AI — reliable and from a single source.',
+      'We manage your web application infrastructure, operate your own server landscape and build secure environments for agentic workflows.',
     'hero.primaryCta': 'Get in touch',
     'hero.secondaryCta': 'Our services',
 

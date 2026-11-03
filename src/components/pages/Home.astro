@@ -7,7 +7,7 @@ import PostCard from '../sections/PostCard.astro';
 import BentoGrid from '../sections/BentoGrid.astro';
 import LogoCloud from '../sections/LogoCloud.astro';
 import HeroSection from '../sections/HeroSection.astro';
-import { getBlogPosts, getServices, getApplications } from '../../lib/contentful';
+import { getBlogPosts, getServices, getApplications, getHero } from '../../lib/contentful';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -15,9 +15,22 @@ const t = useTranslations(lang);
 
 const posts = await getBlogPosts();
 
-// Services + trusted-by applications (managed in Contentful)
+// Hero, services + trusted-by applications (managed in Contentful)
+const heroEntry = await getHero();
 const services = await getServices();
 const applications = await getApplications();
+
+// Hero copy from Contentful, with i18n strings as fallback
+const hf = heroEntry?.fields;
+const pick = (de?: string, en?: string) => (lang === 'de' ? de : (en ?? de));
+const hero = {
+  badge: pick(hf?.badgeDe, hf?.badgeEn) ?? t('hero.badge'),
+  titleStart: pick(hf?.titleStartDe, hf?.titleStartEn) ?? t('hero.titleStart'),
+  titleHighlight: pick(hf?.titleHighlightDe, hf?.titleHighlightEn) ?? t('hero.titleHighlight'),
+  description: pick(hf?.descriptionDe, hf?.descriptionEn) ?? t('hero.description'),
+  primaryCta: pick(hf?.primaryCtaDe, hf?.primaryCtaEn) ?? t('hero.primaryCta'),
+  secondaryCta: pick(hf?.secondaryCtaDe, hf?.secondaryCtaEn) ?? t('hero.secondaryCta'),
+};
 
 const serviceIcons: Record<string, string> = {
   hosting:
@@ -45,7 +58,7 @@ const pageTitle =
   lang === 'de' ? 'Managed Infrastruktur für Web und KI' : 'Managed infrastructure for web and AI';
 ---
 
-<BaseLayout title={pageTitle} description={t('hero.description')}>
+<BaseLayout title={pageTitle} description={hero.description}>
   <Fragment slot="head">
     <JsonLd
       type="Organization"
@@ -53,7 +66,7 @@ const pageTitle =
         name: 'Olymp Services',
         url: siteUrl,
         logo: `${siteUrl}/olymp-mark.png`,
-        description: t('hero.description'),
+        description: hero.description,
       }}
     />
     <JsonLd type="WebSite" data={{ name: 'Olymp Services', url: siteUrl }} />
@@ -61,15 +74,15 @@ const pageTitle =
 
   <Header slot="header" />
 
-  <!-- Hero (theme HeroSection) -->
+  <!-- Hero (content managed in Contentful, type: hero) -->
   <HeroSection
-    badge={t('hero.badge')}
-    titleStart={t('hero.titleStart')}
-    titleHighlight={t('hero.titleHighlight')}
-    description={t('hero.description')}
-    primaryCtaText={t('hero.primaryCta')}
+    badge={hero.badge}
+    titleStart={hero.titleStart}
+    titleHighlight={hero.titleHighlight}
+    description={hero.description}
+    primaryCtaText={hero.primaryCta}
     primaryCtaHref={getLocalizedPath(lang, '/contact')}
-    secondaryCtaText={t('hero.secondaryCta')}
+    secondaryCtaText={hero.secondaryCta}
     secondaryCtaHref={getLocalizedPath(lang, '/#services')}
   />
 
