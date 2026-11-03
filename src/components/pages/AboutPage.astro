@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('about.title')} description={t('about.missionText')}>
+  <Header slot="header" />
+
+  <main class="mx-auto max-w-4xl px-6 py-20 md:py-32">
+    <header class="text-center md:mb-16">
+      <h1 class="font-display text-4xl font-extrabold tracking-tight text-[var(--text-primary)] sm:text-5xl">
+        {t('about.title')}
+      </h1>
+      <p class="mt-6 text-lg text-[var(--text-secondary)]">{t('about.subtitle')}</p>
+    </header>
+
+    <div class="prose prose-lg mx-auto prose-headings:font-display prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[var(--text-primary)]">
+      <h2>{t('about.missionTitle')}</h2>
+      <p>{t('about.missionText')}</p>
+
+      <h2>{t('about.portalsTitle')}</h2>
+      <p>{t('about.portalsText')}</p>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</BaseLayout>

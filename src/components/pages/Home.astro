@@ -6,6 +6,7 @@ import JsonLd from '../seo/JsonLd.astro';
 import PostCard from '../sections/PostCard.astro';
 import BentoGrid from '../sections/BentoGrid.astro';
 import LogoCloud from '../sections/LogoCloud.astro';
+import HeroSection from '../sections/HeroSection.astro';
 import { getBlogPosts, getServices, getApplications } from '../../lib/contentful';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
 
@@ -13,7 +14,6 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const posts = await getBlogPosts();
-const latest = posts[0];
 
 // Services + trusted-by applications (managed in Contentful)
 const services = await getServices();
@@ -41,10 +41,8 @@ const serviceItems = services.map((s, i) => ({
 }));
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://olymp.services';
-const pageTitle = lang === 'de' ? 'Website im Aufbau' : 'Under construction';
-const primaryHref = latest
-  ? getLocalizedPath(lang, `/blog/${latest.fields.slug}`)
-  : getLocalizedPath(lang, '/blog');
+const pageTitle =
+  lang === 'de' ? 'Managed Infrastruktur für Web und KI' : 'Managed infrastructure for web and AI';
 ---
 
 <BaseLayout title={pageTitle} description={t('hero.description')}>
@@ -54,7 +52,7 @@ const primaryHref = latest
       data={{
         name: 'Olymp Services',
         url: siteUrl,
-        logo: `${siteUrl}/favicon.svg`,
+        logo: `${siteUrl}/olymp-mark.png`,
         description: t('hero.description'),
       }}
     />
@@ -63,50 +61,17 @@ const primaryHref = latest
 
   <Header slot="header" />
 
-  <!-- Hero / under construction -->
-  <section class="relative overflow-hidden">
-    <div
-      class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--color-primary-100)]/40 to-transparent dark:from-[var(--color-primary-950)]/40"
-    >
-    </div>
-    <div class="relative mx-auto max-w-4xl px-6 py-24 text-center lg:py-32">
-      <span
-        class="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-1.5 text-sm font-medium text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)]"
-      >
-        <span class="relative flex h-2 w-2">
-          <span
-            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-primary-500)] opacity-75"
-          ></span>
-          <span class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-primary-600)]"></span>
-        </span>
-        {t('hero.badge')}
-      </span>
-
-      <h1
-        class="mt-6 font-display text-4xl font-extrabold tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl"
-      >
-        {t('hero.title')}
-      </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-        {latest?.fields.excerpt ?? t('hero.description')}
-      </p>
-
-      <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a
-          href={primaryHref}
-          class="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--color-primary-600)]/25 transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-700)]"
-        >
-          {t('hero.primaryCta')}
-        </a>
-        <a
-          href={getLocalizedPath(lang, '/contact')}
-          class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:border-[var(--border-hover)] hover:bg-[var(--bg-secondary)]"
-        >
-          {t('hero.secondaryCta')}
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- Hero (theme HeroSection) -->
+  <HeroSection
+    badge={t('hero.badge')}
+    titleStart={t('hero.titleStart')}
+    titleHighlight={t('hero.titleHighlight')}
+    description={t('hero.description')}
+    primaryCtaText={t('hero.primaryCta')}
+    primaryCtaHref={getLocalizedPath(lang, '/contact')}
+    secondaryCtaText={t('hero.secondaryCta')}
+    secondaryCtaHref={getLocalizedPath(lang, '/#services')}
+  />
 
   <!-- Trusted by (from Contentful) -->
   <LogoCloud title={t('trustedBy.title')} applications={applications} />

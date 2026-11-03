@@ -32,6 +32,17 @@ export const ui = {
     'nav.resources': 'Ressourcen',
     'nav.blogDesc': 'Neuigkeiten und Einblicke.',
     'nav.cta': 'Kontakt aufnehmen',
+    'nav.about': 'Über uns',
+
+    // About page
+    'about.title': 'Über uns',
+    'about.subtitle': 'Managed Infrastruktur, damit Sie sich auf Ihr Geschäft konzentrieren können.',
+    'about.missionTitle': 'Unsere Mission',
+    'about.missionText':
+      'Wir führen Organisationen zu professionell betriebener Managed Infrastruktur. Hosting, Server und KI-Umgebungen liegen bei uns in verlässlichen Händen – damit sich unsere Kunden voll auf ihr Kerngeschäft und ihre eigenen Kunden konzentrieren können.',
+    'about.portalsTitle': 'Schlanke, nutzerzentrierte Portale',
+    'about.portalsText':
+      'Wir entwickeln schlanke, nutzerzentrierte Portale, die den Zugang zu datengetriebenen Anwendungen einfach machen. Klare Oberflächen und kurze Wege bringen Daten dorthin, wo Entscheidungen getroffen werden.',
 
     // Case studies
     'caseStudies.title': 'Case Studies',
@@ -42,13 +53,14 @@ export const ui = {
     'caseStudies.backToList': 'Alle Case Studies',
     'caseStudies.empty': 'Noch keine Case Studies vorhanden.',
 
-    // Hero / under construction
-    'hero.badge': 'Im Aufbau',
-    'hero.title': 'Unsere neue Website entsteht gerade.',
+    // Hero
+    'hero.badge': 'Website im Aufbau',
+    'hero.titleStart': 'Managed Infrastruktur für',
+    'hero.titleHighlight': 'Web und KI',
     'hero.description':
-      'Wir arbeiten mit Hochdruck an unserem neuen Auftritt. Schauen Sie bald wieder vorbei – in der Zwischenzeit erreichen Sie uns jederzeit per E-Mail.',
-    'hero.primaryCta': 'Mehr erfahren',
-    'hero.secondaryCta': 'Kontakt aufnehmen',
+      'Wir hosten Ihre Webseiten, betreiben Ihre Serverinfrastruktur und bauen geschützte Umgebungen für agentische KI – zuverlässig und aus einer Hand.',
+    'hero.primaryCta': 'Kontakt aufnehmen',
+    'hero.secondaryCta': 'Unsere Leistungen',
 
     // Blog
     'blog.title': 'Neuigkeiten',
@@ -79,6 +91,7 @@ export const ui = {
       'Beim Absenden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Nachricht.',
 
     // Footer
+    'footer.navigation': 'Seitenübersicht',
     'footer.tagline': 'Unsere Website befindet sich derzeit im Aufbau.',
     'footer.legal': 'Rechtliches',
     'footer.imprint': 'Impressum',
@@ -105,6 +118,17 @@ export const ui = {
     'nav.resources': 'Resources',
     'nav.blogDesc': 'News and insights.',
     'nav.cta': 'Get in touch',
+    'nav.about': 'About',
+
+    // About page
+    'about.title': 'About Us',
+    'about.subtitle': 'Managed infrastructure, so you can focus on your business.',
+    'about.missionTitle': 'Our Mission',
+    'about.missionText':
+      'We lead organisations to professionally managed infrastructure. Hosting, servers and AI environments are in reliable hands with us — so our customers can focus entirely on their core business and the people they serve.',
+    'about.portalsTitle': 'Lean, user-centric portals',
+    'about.portalsText':
+      'We build lean, user-centric portals that make data-driven applications easy to access. Clear interfaces and short paths bring data to where decisions are made.',
 
     // Case studies
     'caseStudies.title': 'Case Studies',
@@ -115,13 +139,14 @@ export const ui = {
     'caseStudies.backToList': 'All case studies',
     'caseStudies.empty': 'No case studies yet.',
 
-    // Hero / under construction
-    'hero.badge': 'Under construction',
-    'hero.title': 'Our new website is on its way.',
+    // Hero
+    'hero.badge': 'Website under construction',
+    'hero.titleStart': 'Managed infrastructure for',
+    'hero.titleHighlight': 'web and AI',
     'hero.description':
-      "We're hard at work on our new online presence. Please check back soon — in the meantime you can always reach us by email.",
-    'hero.primaryCta': 'Learn more',
-    'hero.secondaryCta': 'Get in touch',
+      'We host your websites, operate your server infrastructure and build protected environments for agentic AI — reliable and from a single source.',
+    'hero.primaryCta': 'Get in touch',
+    'hero.secondaryCta': 'Our services',
 
     // Blog
     'blog.title': 'News',
@@ -152,6 +177,7 @@ export const ui = {
       'Submitting opens your email client with the prepared message.',
 
     // Footer
+    'footer.navigation': 'Site map',
     'footer.tagline': 'Our website is currently under construction.',
     'footer.legal': 'Legal',
     'footer.imprint': 'Imprint',

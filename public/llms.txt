@@ -1,13 +1,28 @@
 # Olymp Services
 
-> Die Website von Olymp Services befindet sich derzeit im Aufbau.
-> The Olymp Services website is currently under construction.
+> Olymp Services bietet Managed Infrastruktur für Web und KI: Hosting von Webseiten,
+> Verwaltung von Serverinfrastrukturen und den Aufbau geschützter KI-Serverlandschaften
+> für agentische KI.
+> Olymp Services provides managed infrastructure for web and AI: website hosting,
+> server infrastructure management and protected AI server environments for agentic AI.
 
 ## Kontakt / Contact
 - E-Mail: info@olymp.services
+- Kontaktseite / Contact page: https://olymp.services/contact
+
+## Leistungen / Services
+- Hosting von Webseiten / Website hosting
+- Verwaltung von Serverinfrastrukturen / Server infrastructure management
+- Aufbau geschützter KI-Serverlandschaften / Secure AI server environments
 
 ## Seiten / Pages
-- Startseite / Home: https://olymp.services/
-- Blog: https://olymp.services/blog
+- Startseite / Home: https://olymp.services/ (EN: https://olymp.services/en/)
+- Über uns / About: https://olymp.services/about (EN: https://olymp.services/en/about)
+- Blog: https://olymp.services/blog (EN: https://olymp.services/en/blog)
+- Case Studies: https://olymp.services/case-studies (EN: https://olymp.services/en/case-studies)
+- Kontakt / Contact: https://olymp.services/contact (EN: https://olymp.services/en/contact)
 - Impressum: https://olymp.services/impressum
 - Datenschutz: https://olymp.services/datenschutz
+
+## Sitemap
+- https://olymp.services/sitemap-index.xml
